@@ -16,27 +16,15 @@
 </head>
 <body><main>
   <a href="./">← Back to the course</a>
-  <h1>Study with Claude on your phone or computer.</h1>
-  <p>Ask about the lesson you are reading, get a hint, or create extra practice using your own Claude API credits.</p>
+  <h1>A Claude tutor for everyone studying here.</h1>
   <section class="card">
-    <h2>Your private Claude tutor</h2>
-    <p>Sign in with the ChatGPT account that owns this course. Your existing Claude API credits power the tutor, and your Mac does not need to be running.</p>
-    <a class="button" id="open-cloud" href="https://baird-law-school-claude.goldenbrioche1.chatgpt.site/course.html">Open the Claude-enabled course</a>
-    <p class="muted">This private edition works in a phone or desktop browser. If the in-app browser cannot complete sign-in, open the link in Safari or Chrome. Other public visitors can read the free course, but cannot spend the owner's credits.</p>
+    <h2>Paid for by the course owner</h2>
+    <p>Open the course and tap <strong>Tutor</strong>. Ask about a lesson, get a hint, or create extra practice. You do not need your own API key, credits, or ChatGPT sign-in.</p>
+    <a class="button" id="open-course" href="./">Open the course</a>
+    <p class="muted">The shared allowance is 100 requests per day, resetting at midnight UTC, and 12 requests per minute. If it is used up, come back after the reset.</p>
   </section>
-  <section class="card">
-    <h2>Optional: run a local copy</h2>
-    <p>The local option is for a computer with Python. On a phone, use the private tutor above.</p>
-    <ol>
-      <li><a href="https://github.com/Cbaird26/law-school-learning-foundation/archive/refs/heads/main.zip">Download the course</a> and unzip it.</li>
-      <li>With Python 3 installed, open a terminal in that folder and run <code>python3 launch.py</code>. On macOS, you can also run <code>Law School with Claude.command</code>.</li>
-      <li>Choose <strong>Claude settings</strong> or <strong>Connect Claude</strong> in the course. An existing ToE Math School API connection on that computer is reused. Otherwise, connect your own key from <a href="https://platform.claude.com/settings/keys" rel="noreferrer">Claude Console</a>.</li>
-    </ol>
-    <p>The private hosted edition keeps the API key in a server-side secret. A local copy keeps its key on your computer. Questions, lesson context, and photos you attach go to Anthropic.</p>
-    <p class="muted">Progress is saved separately in each browser and for each course address. Keep using the private hosted address on your phone for Claude study sessions. Your Claude Console billing settings govern usage.</p>
-  </section>
+  <p>The owner's API key stays on the server. Your questions, lesson context, and any photos you attach are sent to Anthropic when you use the tutor.</p>
+  <p class="muted">Your progress stays in this browser. The tutor is switched off during assessments.</p>
 </main><script>
-  const route = /^#[a-z0-9-]+$/i.test(location.hash) ? location.hash : '#home';
-  document.getElementById('open-cloud').href = 'https://baird-law-school-claude.goldenbrioche1.chatgpt.site/course.html' + route;
-</script></body>
-</html>
+  document.getElementById('open-course').href = './' + location.hash;
+</script></body></html>

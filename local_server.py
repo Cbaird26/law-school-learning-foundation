@@ -190,7 +190,7 @@ class Handler(BaseHTTPRequestHandler):
                 c = credentials()
                 return self.send(200, {'app': 'law-school-learning-foundation', 'configured': bool(c.get('api_key')),
                                        'verified': bool(c.get('verified_at')), 'model': c['model'], 'token': self.server.csrf})
-            files = {'/': 'index.html', '/index.html': 'index.html', '/connect': 'connect.html', '/claude.html': 'claude.html', '/local-claude.js': 'local-claude.js'}
+            files = {'/': 'index.html', '/index.html': 'index.html', '/connect': 'connect.html', '/claude.html': 'claude.html', '/local-claude.js': 'local-claude.js', '/cloud-claude.js': 'cloud-claude.js'}
             if path in files:
                 file = ROOT / files[path]
             elif re.fullmatch(r'/data/[A-Za-z0-9]+\.json', path):

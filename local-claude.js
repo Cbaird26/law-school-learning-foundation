@@ -49,6 +49,7 @@
     }
   };
   document.addEventListener('DOMContentLoaded', async () => {
+    if (window.SchoolClaude) return;
     const bar = document.querySelector('.topbar .wrap');
     const link = document.querySelector('#claude-connect') || document.createElement('a');
     link.href = '/connect'; link.className = 'btn btn-sm'; link.textContent = 'Connect Claude';
