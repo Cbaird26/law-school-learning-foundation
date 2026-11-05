@@ -359,6 +359,7 @@ textarea.ans-input { min-height: 120px; font-family: var(--f-read); line-height:
     <a href="#path" data-nav="path">Path</a>
   </nav>
   <span class="save-state" id="save-state" aria-live="polite"></span>
+  <a id="claude-connect" class="btn btn-sm" href="claude.html">Open with Claude</a>
   <button class="btn btn-sm tutor-toggle" id="tutor-btn" type="button" aria-controls="drawer" aria-expanded="false">Tutor</button>
 </div></header>
 <main id="main"><div class="wrap"><div class="loading">Loading the curriculum…</div></div></main>
@@ -6837,11 +6838,15 @@ window.TOE_READY = {"B1":{"weeks":[1,2,3,4,5,6,7,8,9,10,11,12],"project":true},"
     session_expired: 'Sign in to Claude again to use the tutor.',
     refused: 'The tutor could not answer that. Try asking it a different way.',
     empty_completion: 'The tutor returned nothing. Try a shorter question.',
-    image_rejected: 'That image could not be used. Try a JPEG or PNG photo under 20 MB.',
+    image_rejected: 'That image could not be used. Try a JPEG or PNG photo under 5 MB.',
     images_unavailable: 'Photos cannot be sent from this view.',
     prompt_too_large: 'That was too long to send. Try a shorter message.',
     invalid_json: 'The tutor\'s problems came back in the wrong shape. Try again.',
-    upstream_error: 'The connection dropped. Try again.',
+    upstream_error: 'The connection dropped. Check Claude settings, then try again.',
+    not_configured: 'Open Claude settings to connect your API account.',
+    invalid_key: 'Claude rejected the key. Update it in Claude settings.',
+    credit_balance: 'Claude API credits are unavailable. Check your Console billing.',
+    model_unavailable: 'This model is unavailable. Choose another in Claude settings.',
   };
   const PERMANENT = new Set(['not_granted', 'sampling_disabled', 'not_declared', 'capability_disabled', 'capability_removed']);
 
@@ -6850,8 +6855,10 @@ window.TOE_READY = {"B1":{"weeks":[1,2,3,4,5,6,7,8,9,10,11,12],"project":true},"
     async init() {
       this.wire();
       this.refresh();
-      if (!window.claude || typeof window.claude.use !== 'function') { this.ready = true; this.refresh(); return; }
-      try { this.sample = await window.claude.use('sample'); } catch (e) { this.sample = null; }
+      if (window.ToELocal) this.sample = await window.ToELocal.connect();
+      if (!this.sample && window.claude && typeof window.claude.use === 'function') {
+        try { this.sample = await window.claude.use('sample'); } catch (e) { this.sample = null; }
+      }
       if (this.sample) {
         try { const lim = await this.sample.limits(); this.imagesOk = !!(lim && lim.images); this.mediaTypes = (lim && lim.images && lim.images.mediaTypes) || []; } catch (e) { this.imagesOk = false; }
       }
@@ -6916,7 +6923,7 @@ window.TOE_READY = {"B1":{"weeks":[1,2,3,4,5,6,7,8,9,10,11,12],"project":true},"
       } else if (!this.ready) {
         msgs.innerHTML = '<div class="thinking">Connecting…</div>';
       } else if (!this.available()) {
-        msgs.innerHTML = '<div class="notice">' + (this.off ? esc(this.offMsg || 'The tutor is off for this visit.') : 'The tutor runs on Claude, which is not available in this view.') + ' You can still get help: copy a prompt that includes this ' + (ctx && ctx.kind === 'question' ? 'problem' : 'lesson') + ' and paste it into a chat with Claude.</div>';
+        msgs.innerHTML = '<div class="notice">' + (this.off ? esc(this.offMsg || 'The tutor is off for this visit.') : (window.ToELocal ? 'Connect your API account in Claude settings to enable the tutor.' : 'Choose Open with Claude above to use your API credits on your computer.')) + ' You can still get help: copy a prompt that includes this ' + (ctx && ctx.kind === 'question' ? 'problem' : 'lesson') + ' and paste it into a chat with Claude.</div>';
       } else if (!turns.length) {
         msgs.innerHTML = '<div class="msg-a"><p>' + (ctx && ctx.kind === 'question' ? 'Stuck? Tell me what you tried, or type your working, and I will find the first step that went wrong. You can also send a photo of your paper work.' : ctx && ctx.kind === 'lesson' ? 'Ask me anything about this lesson: a different explanation, an extra example, or a quick check of your understanding.' : 'Ask about the curriculum, the study method, or any topic you are working on.') + '</p></div>';
       } else {
@@ -6988,7 +6995,7 @@ window.TOE_READY = {"B1":{"weeks":[1,2,3,4,5,6,7,8,9,10,11,12],"project":true},"
         '\nExisting problems, for level and style (do not repeat them):\n' + examples +
         '\n\nReply with only a JSON array of 3 objects, each {"type": "num" | "mc" | "expr", "prompt": string, "answer": string or number, "choices": [strings] (mc only, exactly 4, no "all/none of the above"), "vars": [strings] (expr only), "hints": [2 short progressive hints], "solution": string}. ' +
         'Use markdown with TeX in $...$ for prompts, hints and solutions. For num answers use calculator syntax such as 3/4, -2, sqrt(2)/2, 2pi, 1.5e3 (exact values; no units, no words). For expr answers use calculator syntax in the listed vars, such as 3x^2 + 2x or e^(-t). For mc, "answer" is the 0-based index of the correct choice. ' +
-        'Solve each problem twice independently before writing its answer; prefer problems whose answers are clean.';
+        'Check each answer before responding. Keep the complete JSON response concise, under 700 words total. For law lessons, use multiple-choice hypothetical fact patterns with brief explanations.';
       this.ctl = new AbortController();
       try {
         const arr = await this.sample.json(prompt, { signal: this.ctl.signal, cache: false });
@@ -7111,5 +7118,15 @@ window.ToEApp.boot();
 
 </script>
 
+<script>
+(() => {
+  function updateClaudeLink() {
+    const link = document.getElementById('claude-connect');
+    if (link && !window.ToELocal) link.href = 'claude.html' + location.hash;
+  }
+  updateClaudeLink();
+  window.addEventListener('hashchange', updateClaudeLink);
+})();
+</script>
 </body>
 </html>

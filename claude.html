@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Open with Claude · Law School Learning Foundation</title>
+  <style>
+    :root{font-family:system-ui,sans-serif;color:#29272a;background:#f6f4f0;line-height:1.65}
+    *{box-sizing:border-box}body{margin:0;padding:32px 20px}main{max-width:700px;margin:auto}
+    a{color:#713a48}h1{font-family:Georgia,serif;font-size:2.2rem;line-height:1.2}
+    .card{background:white;border:1px solid #ddd6cb;border-radius:14px;padding:24px;margin:22px 0}
+    .button{display:inline-block;background:#713a48;color:white;padding:12px 20px;border-radius:8px;font-weight:650;text-decoration:none}
+    .muted{color:#615b5d;font-size:.95rem}code{overflow-wrap:anywhere}pre{overflow:auto;background:#eeeae5;padding:16px;border-radius:8px}
+    a:focus-visible{outline:3px solid #b36b80;outline-offset:4px}li{margin:10px 0}
+  </style>
+</head>
+<body><main>
+  <a href="./">← Back to the course</a>
+  <h1>Study with Claude on your computer.</h1>
+  <p>Ask about the lesson you are reading, get a hint, or create extra practice using your own Claude API credits.</p>
+  <section class="card">
+    <h2>Already set up?</h2>
+    <p>Open <strong>Law School with Claude</strong> on your Mac to start the connection, then continue here.</p>
+    <a class="button" id="open-local" href="http://127.0.0.1:8742/">Open the Claude-enabled course</a>
+    <p class="muted">This opens the course running on your own computer. If the page cannot be reached, start the launcher first.</p>
+  </section>
+  <section class="card">
+    <h2>First time on this computer?</h2>
+    <ol>
+      <li><a href="https://github.com/Cbaird26/law-school-learning-foundation/archive/refs/heads/main.zip">Download the course</a> and unzip it.</li>
+      <li>With Python 3 installed, open a terminal in that folder and run <code>python3 launch.py</code>. On macOS, you can also run <code>Law School with Claude.command</code>.</li>
+      <li>Choose <strong>Claude settings</strong> or <strong>Connect Claude</strong> in the course. An existing ToE Math School API connection on that computer is reused. Otherwise, connect your own key from <a href="https://platform.claude.com/settings/keys" rel="noreferrer">Claude Console</a>.</li>
+    </ol>
+    <p>The API key stays on your computer. Questions, lesson context, and photos you attach go to Anthropic. The public course does not provide shared API credits.</p>
+    <p class="muted">Progress is saved separately for the public and local addresses. Keep using the local address for your Claude study sessions. Your Claude Console billing settings govern usage.</p>
+  </section>
+</main><script>
+  const route = /^#[a-z0-9-]+$/i.test(location.hash) ? location.hash : '#home';
+  document.getElementById('open-local').href = 'http://127.0.0.1:8742/' + route;
+</script></body>
+</html>
