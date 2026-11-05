@@ -12,9 +12,13 @@ Each course includes 12 weekly lessons, worked examples, practice, quizzes, a we
 
 Progress is stored in your browser's local storage. It is specific to that browser and site address, and clearing site data removes it. Progress from a downloaded copy does not automatically transfer to the hosted site.
 
-Choose **Open with Claude** to use the tutor through a private local connection on your computer. The public site also lets you copy a ready-made tutor prompt into Claude.
+Choose **Open with Claude** to use the private hosted tutor on your phone or computer. The public site also lets you copy a ready-made tutor prompt into Claude.
 
-## Use your Claude API credits
+## Use Claude on mobile or desktop
+
+Open [Law School with Claude](https://baird-law-school-claude.goldenbrioche1.chatgpt.site/course.html) and sign in with the ChatGPT account that owns the private site. This edition uses the owner’s existing Claude API connection through a server-side secret. No Mac or local server is needed. The public GitHub course remains available to everyone; the hosted tutor is restricted to its owner so visitors cannot spend those credits. If sign-in does not complete in an app’s embedded browser, open the link in Safari or Chrome. Progress remains separate for each browser and address.
+
+## Optional local Claude connection
 
 Run `python3 launch.py` in this folder, or open `Law School with Claude.command` on macOS. The launcher starts the school at `http://127.0.0.1:8742` and opens it in your browser. Launching it again reuses the running server. Python 3 is required; no extra packages are needed.
 
