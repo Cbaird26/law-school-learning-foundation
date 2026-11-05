@@ -980,13 +980,15 @@ textarea.ans-input { min-height: 120px; font-family: var(--f-read); line-height:
         const open = display ? 2 : 1;
         let j = i + open, found = -1;
         while (j < s.length) {
+          if (!display && s[j] === '\n') break;
           if (s[j] === '\\') { j += 2; continue; }
           if (s[j] === '$') {
             if (display) { if (s[j + 1] === '$') { found = j; break; } }
-            else { found = j; break; }
+            else if (!/\s/.test(s[j - 1]) && !/\d/.test(s[j + 1] || '')) { found = j; break; }
           }
           j++;
         }
+        if (found < 0 && !display) { out += '$'; i++; continue; }
         if (found < 0) { maths.push({ tex: s.slice(i + open), display: display, unclosed: true }); out += PH(maths.length - 1); break; }
         maths.push({ tex: s.slice(i + open, found), display: display });
         out += PH(maths.length - 1);
@@ -6795,7 +6797,7 @@ window.TOE_READY = {"B1":{"weeks":[1,2,3,4,5,6,7,8,9,10,11,12],"project":true},"
     'Teach like a patient, rigorous human tutor. Ask what the learner tried when that helps. Find the first incorrect step in their work. Give one hint at a time, then let them try. Use small concrete examples. When you explain, end with one short question that checks understanding.',
     'For a practice problem, do not give the final answer or a full solution unless the learner has already revealed the solution or explicitly asks for it after trying. Point them to the next step instead.',
     'Be accurate. If you are unsure of a fact, say so and point to the course reading. Remind the learner, when it matters, that agreement with an AI is not proof: check against the text or a worked solution.',
-    'Format: short paragraphs, math in TeX inside $...$ or $$...$$, no tables unless asked. Keep replies under about 180 words unless the learner asks for more.',
+    'Format: write currency as USD 100 or 100 dollars, not with dollar-sign delimiters. Use short paragraphs, math in TeX inside $...$ or $$...$$, no tables unless asked. Keep replies under about 180 words unless the learner asks for more.',
   ].join('\n');
 
   function courseLine(code) { const c = COURSES.get(code); return c ? 'Course: ' + code + ' ' + c.title + ' (' + App.GROUPS.get(c.group).name + '). Purpose: ' + c.purpose : ''; }
